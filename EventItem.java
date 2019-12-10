@@ -2,9 +2,6 @@ package com.example.ellie.mobiledevassignment;
 
 import java.util.List;
 
-/**
- * Created by ellie on 10/12/2019.
- */
 
 public class EventItem {
     private List<TextItem> summary;

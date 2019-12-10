@@ -1,8 +1,5 @@
 package com.example.ellie.mobiledevassignment;
 
-/**
- * Created by ellie on 10/12/2019.
- */
 
 public class News {
     private Events events;

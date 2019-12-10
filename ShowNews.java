@@ -126,14 +126,17 @@ public class ShowNews extends AppCompatActivity {
         }
 
         public void setNews(News new_news) {
-            TextView tv = findViewById(R.id.textView2);
+            TextView summary = findViewById(R.id.textView2);
+            TextView title = findViewById(R.id.textView7);
+
             if (new_news != null) {
 
                 for(int i = 0; i < new_news.getEvents().getResults().size(); i ++) {
-                    tv.setText(new_news.getEvents().getResults().get(0).getSummary().get(0).getEng());
+                    title.setText(new_news.getEvents().getResults().get(i).getTitle().get(0).getEng());
+                    summary.setText(new_news.getEvents().getResults().get(i).getSummary().get(0).getEng());
                 }
             } else {
-                tv.setText("No news found :(");
+                summary.setText("No news found :(");
             }
         }
     }
