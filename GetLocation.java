@@ -241,7 +241,7 @@ private class downloadLocation extends AsyncTask<String, Void, String> {
             JSONObject address_components = obj2.getJSONObject("components");
 
             //System.out.println(jsonArray);
-            location = address_components.getString("state_district");
+            location = address_components.getString("county");
 
             System.out.println(location);
             Location_Name = location;
