@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -31,15 +33,7 @@ public class ShowNews extends AppCompatActivity {
 
     private String API_KEY = "820dc531-f4bc-4ae6-8a66-e1e8013b47d0";
     public String location;
-
-    ArrayList<HashMap<String, String>> dataList = new ArrayList<>();
-    static final String KEY_AUTHOR = "author";
-    static final String KEY_TITLE = "title";
-    static final String KEY_DESCRIPTION = "description";
-    static final String KEY_URL = "url";
-    static final String KEY_LOCATION = "location";
-    static final String KEY_URLTOIMAGE = "urlToImage";
-    static final String KEY_PUBLISHEDAT = "publishedAt";
+    static int count = 0;
 
 
     @Override
@@ -50,7 +44,7 @@ public class ShowNews extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Bundle extras = getIntent().getExtras();
-        if(extras != null) {
+        if (extras != null) {
             location = extras.getString("key");
         }
     }
@@ -67,14 +61,43 @@ public class ShowNews extends AppCompatActivity {
 
         System.out.println("I GOT HERE " + splitLocation);
         new ShowNews.downloadNews().execute(" https://eventregistry.org/api/v1/event/getEvents?query=%7B%22%24query%22%3A%7B%22%24and%22%3A%5B%7B%22" +
-                        "conceptUri%22%3A%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2F" +
-                        splitLocation +
-                        "%22%7D%2C%7B%22lang%22%3A%22eng%22%7D%5D%7D%7D&resultType=events&eventsSortBy=date&eventsCount=50" +
-                        "&eventImageCount=1&storyImageCount=1&" +
-                        "apiKey=" + API_KEY);
+                "conceptUri%22%3A%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2F" +
+                splitLocation +
+                "%22%7D%2C%7B%22lang%22%3A%22eng%22%7D%5D%7D%7D&resultType=events&eventsSortBy=date&eventsCount=50" +
+                "&eventImageCount=1&storyImageCount=1&" +
+                "apiKey=" + API_KEY);
     }
 
+    public void setNews(News new_news) {
+        TextView summary = findViewById(R.id.textView2);
+        TextView title = findViewById(R.id.textView7);
+        TextView date = findViewById(R.id.textView9);
+        TextView uri = findViewById(R.id.textView10);
 
+
+        if (new_news != null) {
+
+            if (count > new_news.getEvents().getCount() - 1) {
+                title.setText("whoa there no more news");
+                summary.setText("lol bye");
+
+                count = 0;
+            }
+            else {
+                title.setText(new_news.getEvents().getResults().get(ShowNews.count).getTitle().get(0).getEng());
+                summary.setText(new_news.getEvents().getResults().get(ShowNews.count).getSummary().get(0).getEng());
+                date.setText(new_news.getEvents().getResults().get(ShowNews.count).getEventDate());
+                uri.setText(new_news.getEvents().getResults().get(ShowNews.count).getUri());
+
+            }
+
+        } else {
+            title.setText("YIKES");
+            date.setText("No date allowed");
+            summary.setText("No news found :(");
+        }
+
+    }
 
     private class downloadNews extends AsyncTask<String, Void, String> {
 
@@ -122,22 +145,26 @@ public class ShowNews extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            setNews(news);
-        }
+            Button fill = findViewById(R.id.button5);
+            fill.setVisibility(View.INVISIBLE);
 
-        public void setNews(News new_news) {
             TextView summary = findViewById(R.id.textView2);
             TextView title = findViewById(R.id.textView7);
+            TextView date = findViewById(R.id.textView9);
 
-            if (new_news != null) {
+            summary.setVisibility(View.VISIBLE);
+            title.setVisibility(View.VISIBLE);
+            date.setVisibility(View.VISIBLE);
 
-                for(int i = 0; i < new_news.getEvents().getResults().size(); i ++) {
-                    title.setText(new_news.getEvents().getResults().get(i).getTitle().get(0).getEng());
-                    summary.setText(new_news.getEvents().getResults().get(i).getSummary().get(0).getEng());
-                }
-            } else {
-                summary.setText("No news found :(");
-            }
+            setNews(news);
+
+            count++;
+
         }
+
+
+
     }
+
+
 }

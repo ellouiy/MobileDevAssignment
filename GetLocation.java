@@ -64,33 +64,12 @@ public class GetLocation extends AppCompatActivity {
                         Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(GetLocation.this, "You've already got location permissions on", Toast.LENGTH_SHORT).show();
 
-
-
-                    setProgressValue(progress);
                     getGPS();
                 } else {
                     requestLocationPermission();
                 }
             }
         });
-    }
-
-    private void setProgressValue(final int progress) {
-        progressBar.setProgress(progress);
-
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    Thread.sleep(1000);
-                } catch(InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-
-
     }
 
     public void getGPS() {
@@ -222,7 +201,7 @@ private class downloadLocation extends AsyncTask<String, Void, String> {
 
             return (sb.toString());
         } catch (IOException e) {
-            return "This app only works in the United Kingdom ";
+            return "Oops, an error has occurred";
         }
     }
 
