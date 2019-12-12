@@ -42,7 +42,6 @@ public class GetLocation extends AppCompatActivity {
     public String Location_Name;
     private double LONGITUDE;
     private double LATITUDE;
-
     private String location;
     ProgressBar progressBar;
     int progress = 0;
@@ -56,6 +55,9 @@ public class GetLocation extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
 
+
+        l_mgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        
         Button buttonRequest = findViewById(R.id.button2);
         buttonRequest.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -99,7 +99,7 @@ public class ShowNews extends AppCompatActivity {
             else {
                 title.setText(new_news.getArticles().getResults().get(ShowNews.count).getTitle());
                 body.setText(new_news.getArticles().getResults().get(ShowNews.count).getBody());
-                date.setText(new_news.getArticles().getResults().get(ShowNews.count).getDate());
+                date.setText("Article Date : " + new_news.getArticles().getResults().get(ShowNews.count).getDate());
 
                 url.setVisibility(View.VISIBLE);
 
