@@ -64,6 +64,9 @@ public class GetLocation extends AppCompatActivity {
                         Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(GetLocation.this, "You've already got location permissions on", Toast.LENGTH_SHORT).show();
 
+                    ProgressBar p = findViewById(R.id.progressBar);
+                    p.setVisibility(View.VISIBLE);
+
                     getGPS();
                 } else {
                     requestLocationPermission();
@@ -75,6 +78,8 @@ public class GetLocation extends AppCompatActivity {
     public void getGPS() {
         l_mgr = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
+        TextView txt = findViewById(R.id.textView);
+        txt.setVisibility(View.VISIBLE);
         try {
             l_mgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
                 @Override

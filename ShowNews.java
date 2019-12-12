@@ -47,6 +47,8 @@ public class ShowNews extends AppCompatActivity {
         if (extras != null) {
             location = extras.getString("key");
         }
+
+        count = 0;
     }
 
     public void goBack(View view) {
@@ -60,16 +62,17 @@ public class ShowNews extends AppCompatActivity {
         String splitLocation = location.replace(" ", "_");
 
         System.out.println("I GOT HERE " + splitLocation);
-        new ShowNews.downloadNews().execute(" https://eventregistry.org/api/v1/event/getEvents?query=%7B%22%24query%22%3A%7B%22%24and%22%3A%5B%7B%22" +
-                "conceptUri%22%3A%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2F" +
+        new ShowNews.downloadNews().execute("https://eventregistry.org/api/v1/article/getArticles?query=" +
+                "%7B%22%24query%22%3A%7B%22conceptUri%22%3A%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2F" +
                 splitLocation +
-                "%22%7D%2C%7B%22lang%22%3A%22eng%22%7D%5D%7D%7D&resultType=events&eventsSortBy=date&eventsCount=50" +
-                "&eventImageCount=1&storyImageCount=1&" +
-                "apiKey=" + API_KEY);
+                "%22%7D%7D&dataType=news&resultType=articles&articlesSortBy=date&articlesCount=100" +
+                "&articleBodyLen=-1&" +
+                "apiKey=" +
+                API_KEY);
     }
 
     public void setNews(News new_news) {
-        TextView summary = findViewById(R.id.textView2);
+        TextView body = findViewById(R.id.textView2);
         TextView title = findViewById(R.id.textView7);
         TextView date = findViewById(R.id.textView9);
         TextView uri = findViewById(R.id.textView10);
@@ -77,24 +80,24 @@ public class ShowNews extends AppCompatActivity {
 
         if (new_news != null) {
 
-            if (count > new_news.getEvents().getCount() - 1) {
+            if (count > new_news.getArticles().getResults().size() - 1) {
                 title.setText("whoa there no more news");
-                summary.setText("lol bye");
+                body.setText("lol bye");
 
                 count = 0;
             }
             else {
-                title.setText(new_news.getEvents().getResults().get(ShowNews.count).getTitle().get(0).getEng());
-                summary.setText(new_news.getEvents().getResults().get(ShowNews.count).getSummary().get(0).getEng());
-                date.setText(new_news.getEvents().getResults().get(ShowNews.count).getEventDate());
-                uri.setText(new_news.getEvents().getResults().get(ShowNews.count).getUri());
+                title.setText(new_news.getArticles().getResults().get(ShowNews.count).getTitle());
+                body.setText(new_news.getArticles().getResults().get(ShowNews.count).getBody());
+                date.setText(new_news.getArticles().getResults().get(ShowNews.count).getDate());
+                uri.setText(new_news.getArticles().getResults().get(ShowNews.count).getUrl());
 
             }
 
         } else {
             title.setText("YIKES");
             date.setText("No date allowed");
-            summary.setText("No news found :(");
+            body.setText("No news found :(");
         }
 
     }
@@ -151,10 +154,12 @@ public class ShowNews extends AppCompatActivity {
             TextView summary = findViewById(R.id.textView2);
             TextView title = findViewById(R.id.textView7);
             TextView date = findViewById(R.id.textView9);
+            TextView t = findViewById(R.id.textView8);
 
             summary.setVisibility(View.VISIBLE);
             title.setVisibility(View.VISIBLE);
             date.setVisibility(View.VISIBLE);
+            t.setVisibility(View.VISIBLE);
 
             setNews(news);
 

@@ -1,57 +1,67 @@
 package com.example.ellie.mobiledevassignment;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 
 public class EventItem {
-    private List<TextItem> summary;
-    private List<TextItem> title;
-    private String eventDate;
-    private String uri;
+    private String body;
+    private String title;
+    private List<TextItem> source;
+    private String date;
+    private String url;
+    private String img;
 
 
-    public String getUri() {
-        return uri;
+    public String getUrl() {
+        return url;
     }
 
-    public void setUri(String uri) {
-        this.uri = uri;
+    public void setUrl(String uri) {
+        this.url = url;
     }
 
 
     private List<TextItem> location;
 
-    public String getEventDate() {
-        return eventDate;
+    public String getDate() {
+        return date;
     }
 
-    public void setEventDate(String eventDate) {
-        this.eventDate = eventDate;
+    public void setDate(String eventDate) {
+        this.date = date;
     }
 
-    public List<TextItem> getLocation() {
-        return location;
+
+    public String getBody() {
+        return body;
     }
 
-    public void setLocation(List<TextItem> location) {
-        this.location = location;
+    public void setBody(String body) {
+        this.body = body;
     }
 
-    public List<TextItem> getSummary() {
-        return summary;
-    }
-
-    public void setSummary(List<TextItem> summary) {
-        this.summary = summary;
-    }
-
-    public List<TextItem> getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(List<TextItem> title) {
+    public void setTitle(String title) {
         this.title = title;
     }
+
+    public List<TextItem> getSource() {
+        return source;
+    }
+
+    public void setSource(List<TextItem> source) {
+        this.source = source;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
 }

@@ -2,13 +2,13 @@ package com.example.ellie.mobiledevassignment;
 
 
 public class News {
-    private Events events;
+    private Articles articles;
 
-    public Events getEvents() {
-        return events;
+    public Articles getArticles() {
+        return articles;
     }
 
-    public void setEvents(Events events) {
-        this.events = events;
+    public void setArticles(Articles articles) {
+        this.articles = articles;
     }
 }
