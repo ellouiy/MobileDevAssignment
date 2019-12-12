@@ -1,6 +1,7 @@
 package com.example.ellie.mobiledevassignment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +36,7 @@ public class ShowNews extends AppCompatActivity {
     private String API_KEY = "820dc531-f4bc-4ae6-8a66-e1e8013b47d0";
     public String location;
     static int count = 0;
-
+    public String url_;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class ShowNews extends AppCompatActivity {
         }
 
         count = 0;
+
     }
 
     public void goBack(View view) {
@@ -62,6 +65,13 @@ public class ShowNews extends AppCompatActivity {
         String splitLocation = location.replace(" ", "_");
 
         System.out.println("I GOT HERE " + splitLocation);
+
+        TextView txt = findViewById(R.id.infoText);
+        Button btn = findViewById(R.id.urlText);
+
+        btn.setVisibility(View.VISIBLE);
+        txt.setVisibility(View.INVISIBLE);
+
         new ShowNews.downloadNews().execute("https://eventregistry.org/api/v1/article/getArticles?query=" +
                 "%7B%22%24query%22%3A%7B%22conceptUri%22%3A%22http%3A%2F%2Fen.wikipedia.org%2Fwiki%2F" +
                 splitLocation +
@@ -75,7 +85,7 @@ public class ShowNews extends AppCompatActivity {
         TextView body = findViewById(R.id.textView2);
         TextView title = findViewById(R.id.textView7);
         TextView date = findViewById(R.id.textView9);
-        TextView uri = findViewById(R.id.textView10);
+        Button url = findViewById(R.id.urlText);
 
 
         if (new_news != null) {
@@ -90,8 +100,10 @@ public class ShowNews extends AppCompatActivity {
                 title.setText(new_news.getArticles().getResults().get(ShowNews.count).getTitle());
                 body.setText(new_news.getArticles().getResults().get(ShowNews.count).getBody());
                 date.setText(new_news.getArticles().getResults().get(ShowNews.count).getDate());
-                uri.setText(new_news.getArticles().getResults().get(ShowNews.count).getUrl());
 
+                url.setVisibility(View.VISIBLE);
+
+                url_ = new_news.getArticles().getResults().get(ShowNews.count).getUrl();
             }
 
         } else {
@@ -102,6 +114,13 @@ public class ShowNews extends AppCompatActivity {
 
     }
 
+
+    public void gotoWebsite(View view) {
+        //https://programming.guide/java/open-url-in-androids-web-browser.html
+
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url_)));
+    }
+
     private class downloadNews extends AsyncTask<String, Void, String> {
 
         @Override
@@ -110,8 +129,7 @@ public class ShowNews extends AppCompatActivity {
 
             try {
                 url = new URL(urls[0]);
-            }
-            catch (MalformedURLException e) {
+            } catch (MalformedURLException e) {
                 return "";
             }
 
@@ -123,14 +141,13 @@ public class ShowNews extends AppCompatActivity {
                 BufferedReader bf = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line;
 
-                while ((line = bf.readLine()) != null)
-                {
+                while ((line = bf.readLine()) != null) {
                     sb.append(line + "\n");
                 }
                 bf.close();
                 connection.getInputStream().close();
 
-                return(sb.toString());
+                return (sb.toString());
             } catch (IOException e) {
                 return "";
             }
@@ -154,21 +171,18 @@ public class ShowNews extends AppCompatActivity {
             TextView summary = findViewById(R.id.textView2);
             TextView title = findViewById(R.id.textView7);
             TextView date = findViewById(R.id.textView9);
-            TextView t = findViewById(R.id.textView8);
+            TextView url = findViewById(R.id.urlText);
 
             summary.setVisibility(View.VISIBLE);
             title.setVisibility(View.VISIBLE);
             date.setVisibility(View.VISIBLE);
-            t.setVisibility(View.VISIBLE);
+            url.setVisibility(View.VISIBLE);
 
             setNews(news);
 
             count++;
 
         }
-
-
-
     }
 
 

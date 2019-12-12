@@ -9,25 +9,23 @@ public class EventItem {
     private List<TextItem> source;
     private String date;
     private String url;
-    private String img;
+    private String image;
 
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String uri) {
+    public void setUrl(String url) {
         this.url = url;
     }
 
-
-    private List<TextItem> location;
 
     public String getDate() {
         return date;
     }
 
-    public void setDate(String eventDate) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -56,12 +54,12 @@ public class EventItem {
         this.source = source;
     }
 
-    public String getImg() {
-        return img;
+    public String getImage() {
+        return image;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setImage(String image) {
+        this.image = image;
     }
 
 }
